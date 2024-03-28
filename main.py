@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
 from rpi_ws281x import Adafruit_NeoPixel, Color
 from time import sleep
 from datetime import datetime
