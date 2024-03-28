@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 from rpi_ws281x import Adafruit_NeoPixel, Color
 from time import sleep
 from datetime import datetime
@@ -8,7 +9,6 @@ panel = Adafruit_NeoPixel(64, 18, 800000, 5, False, 50)
 panel.begin()
 
 color = Color(255,255,100)
-
 
 def mfive():
   panel.setPixelColor(16,color)
