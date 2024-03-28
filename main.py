@@ -1,7 +1,6 @@
 from rpi_ws281x import Adafruit_NeoPixel, Color
 from time import sleep
 from datetime import datetime
-import math
 from random import randint
 
 panel = Adafruit_NeoPixel(64, 18, 800000, 5, False, 50)
@@ -54,8 +53,6 @@ def past():
 def to():
   panel.setPixelColor(28,color)
   panel.setPixelColor(29,color)
-
-
 
 def one():
   panel.setPixelColor(57,color)
@@ -139,16 +136,12 @@ def clear():
   for i in range(0,64):
     panel.setPixelColor(i,Color(0,0,0))
 
-
-
 r = 0
 g = 60
 b = 200
 rinc = 1
 ginc = 1
 binc = 1
-
-
 
 while True:
   time = datetime.now().time()
