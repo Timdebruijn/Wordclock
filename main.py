@@ -82,12 +82,41 @@ while True:
 
   # Set the words based on the current time
   if 3 <= minute <= 7:
-    set_word('mfive', gradient[0])
-    set_word('past', gradient[0])
+    set_word('mfive')
+    set_word('past')
   elif 8 <= minute <= 12:
-    set_word('mten', gradient[0])
-    set_word('past', gradient[0])
-  # ... (rest of the code)
+    set_word('mten')
+    set_word('past')
+  elif 13 <= minute <= 17:
+    set_word('quarter')
+    set_word('past')
+  elif 18 <= minute <= 22:
+    set_word('twenty')
+    set_word('past')
+  elif 23 <= minute <= 27:
+    set_word('twenty')
+    set_word('mfive')
+    set_word('past')
+  elif 28 <= minute <= 32:
+    set_word('half')
+    set_word('past')
+  elif 33 <= minute <= 37:
+    set_word('twenty')
+    set_word('mfive')
+    set_word('to')
+  elif 38 <= minute <= 42:
+    set_word('twenty')
+    set_word('to')
+  elif 43 <= minute <= 47:
+    set_word('quarter')
+    set_word('to')
+  elif 48 <= minute <= 52:
+    set_word('mten')
+    set_word('to')
+  elif 53 <= minute <= 57:
+    set_word('mfive')
+    set_word('to')
+
 
   # Adjust the hour if necessary
   if minute > 32:
@@ -95,10 +124,29 @@ while True:
 
   # Set the hour word
   if hour == 1 or hour == 13:
-    set_word('one', gradient[0])
+    set_word('one')
   elif hour == 2 or hour == 14:
-    set_word('two', gradient[0])
-  # ... (rest of the code)
+    set_word('two')
+  elif hour == 3 or hour == 15:
+    set_word('three')
+  elif hour == 4 or hour == 16:
+    set_word('four')
+  elif hour == 5 or hour == 17:
+    set_word('five')
+  elif hour == 6 or hour == 18:
+    set_word('six')
+  elif hour == 7 or hour == 19:
+    set_word('seven')
+  elif hour == 8 or hour == 20:
+    set_word('eight')
+  elif hour == 9 or hour == 21:
+    set_word('nine')
+  elif hour == 10 or hour == 22:
+    set_word('ten')
+  elif hour == 11 or hour == 23:
+    set_word('eleven')
+  elif hour == 12 or hour == 0 or hour == 24:
+    set_word('twelve')
 
   # Update the LED panel
   update()
