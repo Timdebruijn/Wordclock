@@ -4,260 +4,138 @@ from time import sleep
 from datetime import datetime
 from random import randint
 
+# Define the LED panel
 panel = Adafruit_NeoPixel(64, 18, 800000, 5, False, 50)
-
 panel.begin()
 
-color = Color(255,255,100)
+# Define the color
+color = Color(255, 255, 100)
 
-def mfive():
-  panel.setPixelColor(16,color)
-  panel.setPixelColor(17,color)
-  panel.setPixelColor(18,color)
-  panel.setPixelColor(19,color)
+# Define the LED positions for each word
+words = {
+  'mfive': [16, 17, 18, 19],
+  'mten': [1, 3, 4],
+  'quarter': [8, 9, 10, 11, 12, 13, 14],
+  'twenty': [1, 2, 3, 4, 5, 6],
+  'half': [20, 21, 22, 23],
+  'past': [25, 26, 27, 28],
+  'to': [28, 29],
+  'one': [57, 60, 63],
+  'two': [48, 49, 57],
+  'three': [43, 44, 45, 46, 47],
+  'four': [56, 57, 58, 59],
+  'five': [32, 33, 34, 35],
+  'six': [40, 41, 42],
+  'seven': [40, 52, 53, 54, 55],
+  'eight': [35, 36, 37, 38, 39],
+  'nine': [60, 61, 62, 63],
+  'ten': [39, 47, 55],
+  'eleven': [50, 51, 52, 53, 54, 55],
+  'twelve': [48, 49, 50, 51, 53, 54]
+}
 
-def mten():
-  panel.setPixelColor(1,color)
-  panel.setPixelColor(3,color)
-  panel.setPixelColor(4,color)
+# Clear all LEDs
+def clear():
+  for i in range(panel.numPixels()):
+    panel.setPixelColor(i, Color(0, 0, 0))
 
-def quarter():
-  panel.setPixelColor(8,color)
-  panel.setPixelColor(9,color)
-  panel.setPixelColor(10,color)
-  panel.setPixelColor(11,color)
-  panel.setPixelColor(12,color)
-  panel.setPixelColor(13,color)
-  panel.setPixelColor(14,color)
-
-def twenty():
-  panel.setPixelColor(1,color)
-  panel.setPixelColor(2,color)
-  panel.setPixelColor(3,color)
-  panel.setPixelColor(4,color)
-  panel.setPixelColor(5,color)
-  panel.setPixelColor(6,color)
-
-def half():
-  panel.setPixelColor(20,color)
-  panel.setPixelColor(21,color)
-  panel.setPixelColor(22,color)
-  panel.setPixelColor(23,color)
-
-def past():
-  panel.setPixelColor(25,color)
-  panel.setPixelColor(26,color)
-  panel.setPixelColor(27,color)
-  panel.setPixelColor(28,color)
-
-def to():
-  panel.setPixelColor(28,color)
-  panel.setPixelColor(29,color)
-
-def one():
-  panel.setPixelColor(57,color)
-  panel.setPixelColor(60,color)
-  panel.setPixelColor(63,color)
-
-def two():
-  panel.setPixelColor(48,color)
-  panel.setPixelColor(49,color)
-  panel.setPixelColor(57,color)
-
-def three():
-  panel.setPixelColor(43,color)
-  panel.setPixelColor(44,color)
-  panel.setPixelColor(45,color)
-  panel.setPixelColor(46,color)
-  panel.setPixelColor(47,color)
-
-def four():
-  panel.setPixelColor(56,color)
-  panel.setPixelColor(57,color)
-  panel.setPixelColor(58,color)
-  panel.setPixelColor(59,color)
-
-def five():
-  panel.setPixelColor(32,color)
-  panel.setPixelColor(33,color)
-  panel.setPixelColor(34,color)
-  panel.setPixelColor(35,color)
-
-def six():
-  panel.setPixelColor(40,color)
-  panel.setPixelColor(41,color)
-  panel.setPixelColor(42,color)
-
-def seven():
-  panel.setPixelColor(40,color)
-  panel.setPixelColor(52,color)
-  panel.setPixelColor(53,color)
-  panel.setPixelColor(54,color)
-  panel.setPixelColor(55,color)
-
-def eight():
-  panel.setPixelColor(35,color)
-  panel.setPixelColor(36,color)
-  panel.setPixelColor(37,color)
-  panel.setPixelColor(38,color)
-  panel.setPixelColor(39,color)
-
-def nine():
-  panel.setPixelColor(60,color)
-  panel.setPixelColor(61,color)
-  panel.setPixelColor(62,color)
-  panel.setPixelColor(63,color)
-
-def ten():
-  panel.setPixelColor(39,color)
-  panel.setPixelColor(47,color)
-  panel.setPixelColor(55,color)
-
-def eleven():
-  panel.setPixelColor(50,color)
-  panel.setPixelColor(51,color)
-  panel.setPixelColor(52,color)
-  panel.setPixelColor(53,color)
-  panel.setPixelColor(54,color)
-  panel.setPixelColor(55,color)
-
-def twelve():
-  panel.setPixelColor(48,color)
-  panel.setPixelColor(49,color)
-  panel.setPixelColor(50,color)
-  panel.setPixelColor(51,color)
-  panel.setPixelColor(53,color)
-  panel.setPixelColor(54,color)
-
+# Update the LED panel
 def update():
   panel.show()
 
-def clear():
-  for i in range(0,64):
-    panel.setPixelColor(i,Color(0,0,0))
+# Set the color of a word
+def set_word(word):
+  for pixel in words[word]:
+    panel.setPixelColor(pixel, color)
 
-r = 0
-g = 60
-b = 200
-rinc = 1
-ginc = 1
-binc = 1
+# Generate a random color
+def generate_random_color():
+  r = randint(0, 255)
+  g = randint(0, 255)
+  b = randint(0, 255)
+  return Color(r, g, b)
 
+# Main loop
 while True:
-  time = datetime.now().time()
-  hour,min,sec = str(time).split(":")
+  # Get the current time
+  current_time = datetime.now().time()
+  hour, minute, _ = str(current_time).split(":")
   hour = int(hour)
-  min = int(min)
+  minute = int(minute)
 
-#  min = 34
-
+  # Clear all LEDs
   clear()
 
-  if r >= 250:
-    rinc = 0
-  if r <= 5:
-    rinc = 1
-  if rinc == 1:
-    r += randint(0,5)
-  else:
-    r -= randint(0,5)
+  # Generate a random color
+  color = generate_random_color()
 
-  if g >= 250:
-    ginc = 0
-  if g <= 5:
-    ginc = 1
-  if ginc == 1:
-    g += randint(0,5)
-  else:
-    g -= randint(0,5)
+  # Set the words based on the current time
+  if 3 <= minute <= 7:
+    set_word('mfive')
+    set_word('past')
+  elif 8 <= minute <= 12:
+    set_word('mten')
+    set_word('past')
+  elif 13 <= minute <= 17:
+    set_word('quarter')
+    set_word('past')
+  elif 18 <= minute <= 22:
+    set_word('twenty')
+    set_word('past')
+  elif 23 <= minute <= 27:
+    set_word('twenty')
+    set_word('mfive')
+    set_word('past')
+  elif 28 <= minute <= 32:
+    set_word('half')
+    set_word('past')
+  elif 33 <= minute <= 37:
+    set_word('twenty')
+    set_word('mfive')
+    set_word('to')
+  elif 38 <= minute <= 42:
+    set_word('twenty')
+    set_word('to')
+  elif 43 <= minute <= 47:
+    set_word('quarter')
+    set_word('to')
+  elif 48 <= minute <= 52:
+    set_word('mten')
+    set_word('to')
+  elif 53 <= minute <= 57:
+    set_word('mfive')
+    set_word('to')
 
-  if b >= 250:
-    binc = 0
-  if b <= 5:
-    binc = 1
-  if binc == 1:
-    b += randint(0,5)
-  else:
-    b -= randint(0,5)
+  # Adjust the hour if necessary
+  if minute > 32:
+    hour += 1
 
-  color = Color(g,r,b)
-
-  if 3 <= min <= 7:
-    mfive()
-    past()
-
-  if 8 <= min <= 12:
-    mten()
-    past()
-
-  if 13 <= min <= 17:
-    quarter()
-    past()
-
-  if 18 <= min <= 22:
-    twenty()
-    past()
-
-  if 23 <= min <= 27:
-    twenty()
-    mfive()
-    past()
-
-  if 28 <= min <= 32:
-    half()
-    past()
-
-  if 33 <= min <= 37:
-    twenty()
-    mfive()
-    to()
-
-  if 38 <= min <= 42:
-    twenty()
-    to()
-
-  if 43 <= min <= 47:
-    quarter()
-    to()
-
-  if 48 <= min <= 52:
-    mten()
-    to()
-
-  if 53 <= min <= 57:
-    mfive()
-    to()
-
-
-  if min > 32:
-    hour = hour + 1
-
-
-
+  # Set the hour word
   if hour == 1 or hour == 13:
-    one()
-  if hour == 2 or hour == 14:
-    two()
-  if hour == 3 or hour == 15:
-    three()
-  if hour == 4 or hour == 16:
-    four()
-  if hour == 5 or hour == 17:
-    five()
-  if hour == 6 or hour == 18:
-    six()
-  if hour == 7 or hour == 19:
-    seven()
-  if hour == 8 or hour == 20:
-    eight()
-  if hour == 9 or hour == 21:
-    nine()
-  if hour == 10 or hour == 22:
-    ten()
-  if hour == 11 or hour == 23:
-    eleven()
-  if hour == 12 or hour == 0 or hour == 24:
-    twelve()
+    set_word('one')
+  elif hour == 2 or hour == 14:
+    set_word('two')
+  elif hour == 3 or hour == 15:
+    set_word('three')
+  elif hour == 4 or hour == 16:
+    set_word('four')
+  elif hour == 5 or hour == 17:
+    set_word('five')
+  elif hour == 6 or hour == 18:
+    set_word('six')
+  elif hour == 7 or hour == 19:
+    set_word('seven')
+  elif hour == 8 or hour == 20:
+    set_word('eight')
+  elif hour == 9 or hour == 21:
+    set_word('nine')
+  elif hour == 10 or hour == 22:
+    set_word('ten')
+  elif hour == 11 or hour == 23:
+    set_word('eleven')
+  elif hour == 12 or hour == 0 or hour == 24:
+    set_word('twelve')
 
+  # Update the LED panel
   update()
   sleep(0.5)
