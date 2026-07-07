@@ -1,0 +1,14 @@
+[Unit]
+Description=Wordclock LED controller
+After=network.target sound.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/pi/Wordclock
+ExecStart=/home/pi/Wordclock/venv/bin/python3 /home/pi/Wordclock/main.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
