@@ -70,9 +70,10 @@ def random_color():
 def gradient(start_color, end_color, steps):
   colors = []
   for i in range(steps):
-    r = int((start_color >> 16 & 0xFF) + ((end_color >> 16 & 0xFF) - (start_color >> 16 & 0xFF)) * i / steps)
-    g = int((start_color >> 8 & 0xFF) + ((end_color >> 8 & 0xFF) - (start_color >> 8 & 0xFF)) * i / steps)
-    b = int((start_color & 0xFF) + ((end_color & 0xFF) - (start_color & 0xFF)) * i / steps)
+    t = i / (steps - 1)
+    r = int((start_color >> 16 & 0xFF) + ((end_color >> 16 & 0xFF) - (start_color >> 16 & 0xFF)) * t)
+    g = int((start_color >> 8 & 0xFF) + ((end_color >> 8 & 0xFF) - (start_color >> 8 & 0xFF)) * t)
+    b = int((start_color & 0xFF) + ((end_color & 0xFF) - (start_color & 0xFF)) * t)
     colors.append(Color(r, g, b))
   return colors
 
