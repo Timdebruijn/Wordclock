@@ -25,11 +25,13 @@ the Imager's advanced options so you can log in headless.
 sudo apt update && sudo apt full-upgrade -y
 ```
 
-### 2. Disable the onboard audio
+### 2. Disable the onboard audio (recommended)
 
-The LED strip is driven over PWM on GPIO18, which is the same hardware block
-used by the onboard audio (headphone jack). If audio is enabled, the clock
-will flicker or not light up at all. Disable it in the boot config:
+The LED strip is driven over PWM on GPIO18, the same hardware block used by
+the onboard analogue audio. On Pi models with a headphone jack an active
+audio driver can make the clock flicker or not light up at all. On a Pi Zero
+(no jack) the clock usually works fine with audio left on, but disabling it
+rules out the conflict entirely:
 
 ```bash
 sudo nano /boot/firmware/config.txt
@@ -52,7 +54,7 @@ sudo apt install -y python3-venv python3-pip git
 ### 4. Get the code
 
 ```bash
-git clone https://github.com/<your-fork>/Wordclock.git ~/Wordclock
+git clone https://github.com/Timdebruijn/Wordclock.git ~/Wordclock
 cd ~/Wordclock
 ```
 
@@ -96,12 +98,15 @@ systemctl status wordclock.service
 journalctl -u wordclock.service -f
 ```
 
+Stopping the service (`sudo systemctl stop wordclock`) blanks the panel.
+
 ## Troubleshooting
 
 | Symptom | Likely cause |
 |---|---|
 | `RUNTIME_ERROR: Failed to access GPIO/DMA` or similar | Service isn't running as root (`User=root` in the unit file), or you forgot `sudo` when testing manually |
-| No LEDs light up / flicker randomly | Onboard audio is still enabled — recheck `/boot/firmware/config.txt` and reboot |
+| No LEDs light up / flicker randomly | Onboard audio may be claiming the PWM block — set `dtparam=audio=off` in `/boot/firmware/config.txt` and reboot |
+| Clock shows the wrong time right after boot | System clock not NTP-synced yet — it corrects itself once the network is up |
 | Wrong letters light up | The panel's physical LED wiring doesn't match the pixel indices in the `words` dict in `main.py` — remap them for your panel |
 | `pip install` fails with "externally-managed-environment" | You're installing outside the virtual environment — activate `venv` first |
 

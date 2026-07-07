@@ -1,12 +1,16 @@
 [Unit]
 Description=Wordclock LED controller
-After=network.target sound.target
+# The clock is only useful once the system time is NTP-synced
+Wants=time-sync.target
+After=time-sync.target
 
 [Service]
 Type=simple
 User=root
 WorkingDirectory=/home/pi/Wordclock
 ExecStart=/home/pi/Wordclock/venv/bin/python3 /home/pi/Wordclock/main.py
+# SIGINT lets the script blank the panel before exiting
+KillSignal=SIGINT
 Restart=on-failure
 RestartSec=5
 
